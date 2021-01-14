@@ -5,7 +5,7 @@ const message = {
   text: 'もうすぐ朝会だよ！！！！！！！！( ﾟДﾟ)'
 }
 
-export const remindAsakai = functions.pubsub.schedule('every monday,tuesday,wednesday,thursday,friday 22:10').timeZone('Asia/Tokyo').onRun(async (context) => {
+export const remindAsakai = functions.pubsub.schedule('every monday,tuesday,wednesday,thursday,friday 11:25').timeZone('Asia/Tokyo').onRun(async (context) => {
   try {
     await axios.post(slack_url, JSON.stringify(message))
     return true;
