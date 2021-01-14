@@ -1,9 +1,17 @@
 import * as functions from "firebase-functions";
+import axios from "axios"
+const slack_url = `${functions.config().slack.url}`
+const message = {
+  text: 'もうすぐ朝会だよ！！！！！！！！( ﾟДﾟ)'
+}
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+export const remindAsakai = functions.pubsub.schedule('every monday,tuesday,wednesday,thursday,friday 22:10').timeZone('Asia/Tokyo').onRun(async (context) => {
+  try {
+    await axios.post(slack_url, JSON.stringify(message))
+    return true;
+  }
+  catch (error) {
+    functions.logger.log('エラー', error)
+    return false
+  }
+})
